@@ -108,7 +108,7 @@ def ImportCTD(psampleid,user_name,user_email):
         HeadRow=Rdr.__next__()
         # Analyser la ligne de titre et assigner à chaque ID l'attribut
         # Construire la table d'association des attributs complémentaires.
-        ExtramesID=0
+        ExtraVarID=0
         Mapping=[]
         ExtraMapping ={}
         for ic,c in enumerate(HeadRow):
@@ -116,10 +116,10 @@ def ImportCTD(psampleid,user_name,user_email):
             if clow in CTDFixedCol:
                 Target=CTDFixedCol[clow]
             else:
-                ExtramesID += 1
-                Target ='extrames%02d'%ExtramesID
-                ExtraMapping['%02d'%ExtramesID]=c
-                if ExtramesID>20:
+                ExtraVarID += 1
+                Target ='extra_%02d'%ExtraVarID
+                ExtraMapping['%02d'%ExtraVarID]=c
+                if ExtraVarID>20:
                     raise Exception("ImportCTD: Too much CTD data, column %s skipped" % c)
             Mapping.append(Target)
         app.logger.info("Mapping = %s",Mapping)

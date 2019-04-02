@@ -78,7 +78,7 @@ class TaskPartExport(AsyncTask):
                                 , 'w', allowZip64=True, compression=zipfile.ZIP_DEFLATED)
         CTDFixedCols=list(CTDFixedColByKey.keys())
         CTDFixedCols.remove('datetime')
-        CTDFixedCols.extend(["extrames%02d" % (i + 1) for i in range(20)])
+        CTDFixedCols.extend(["extra_%02d" % (i + 1) for i in range(20)])
         ctdsql=",".join(["avg({0}) as ctd_{0} ".format(c) for c in CTDFixedCols])
         ctdsql="""select floor(depth/5)*5+2.5 tranche ,{0}
                 from part_ctd t
@@ -358,7 +358,7 @@ class TaskPartExport(AsyncTask):
                                 , 'w', allowZip64=True, compression=zipfile.ZIP_DEFLATED)
         CTDFixedCols=list(CTDFixedColByKey.keys())
         CTDFixedCols.remove('datetime')
-        CTDFixedCols.extend(["extrames%02d" % (i + 1) for i in range(20)])
+        CTDFixedCols.extend(["extra_%02d" % (i + 1) for i in range(20)])
         ctdsql=",".join(["avg({0}) as ctd_{0} ".format(c) for c in CTDFixedCols])
         ctdsql="""select floor(depth/5)*5+2.5 tranche ,{0}
                 from part_ctd t
@@ -686,13 +686,13 @@ order by tree""".format(lstcatwhere)
                     res=GetAll("""select to_char(datetime,'YYYYMMDDHH24MISSMS') as datetime,{},{} 
                                       from part_ctd where psampleid=%s 
                                       ORDER BY lineno""".format(
-                                    ",".join(cols),",".join(["extrames%02d" % (i + 1) for i in range(20)]))
+                                    ",".join(cols),",".join(["extra_%02d" % (i + 1) for i in range(20)]))
                                ,(S['psampleid'],))
                     cols.remove('depth')
                     cols = ["depth", "datetime"] + cols # passe dept et datetime en premieres colonnes
                     colsname = [CTDFixedColByKey[x] for x in cols]
                     CtdCustomCols=DecodeEqualList(S['ctd_desc'])
-                    CtdCustomColsKeys=sorted(['extrames%s' % x for x in CtdCustomCols.keys()])
+                    CtdCustomColsKeys=sorted(['extra_%s' % x for x in CtdCustomCols.keys()])
                     cols.extend(CtdCustomColsKeys)
                     colsname.extend([CtdCustomCols[x[-2:]] for x in CtdCustomColsKeys])
 

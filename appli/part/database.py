@@ -200,7 +200,7 @@ class part_ctd(db.Model):
     temperature = db.Column(DOUBLE_PRECISION)
 # Ajout des colonnes de mesures supplémentaires
 for i in range(1, 21):
-    setattr(part_ctd, "extrames%02d" % i, db.Column(DOUBLE_PRECISION))
+    setattr(part_ctd, "extra_%02d" % i, db.Column(DOUBLE_PRECISION))
 
 
 def ComputeOldestSampleDateOnProject():
